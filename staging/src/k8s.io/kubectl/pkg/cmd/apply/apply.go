@@ -161,8 +161,8 @@ var (
 )
 
 // NewApplyFlags returns a default ApplyFlags
-func NewApplyFlags(f cmdutil.Factory, streams genericclioptions.IOStreams) *ApplyFlags {
-	return &ApplyFlags{
+func NewApplyFlags(f cmdutil.Factory, streams genericclioptions.IOStreams) *ApplyFlags { // Point4
+	return &ApplyFlags{ // Point5
 		Factory:     f,
 		RecordFlags: genericclioptions.NewRecordFlags(),
 		DeleteFlags: delete.NewDeleteFlags("that contains the configuration to apply"),
@@ -177,7 +177,7 @@ func NewApplyFlags(f cmdutil.Factory, streams genericclioptions.IOStreams) *Appl
 
 // NewCmdApply creates the `apply` command
 func NewCmdApply(baseName string, f cmdutil.Factory, ioStreams genericclioptions.IOStreams) *cobra.Command {
-	flags := NewApplyFlags(f, ioStreams)
+	flags := NewApplyFlags(f, ioStreams) // Point3 
 
 	cmd := &cobra.Command{
 		Use:                   "apply (-f FILENAME | -k DIRECTORY)",
@@ -185,8 +185,8 @@ func NewCmdApply(baseName string, f cmdutil.Factory, ioStreams genericclioptions
 		Short:                 i18n.T("Apply a configuration to a resource by file name or stdin"),
 		Long:                  applyLong,
 		Example:               applyExample,
-		Run: func(cmd *cobra.Command, args []string) {
-			o, err := flags.ToOptions(cmd, baseName, args)
+		Run: func(cmd *cobra.Command, args []string) { // Point1
+			o, err := flags.ToOptions(cmd, baseName, args) // Point2
 			cmdutil.CheckErr(err)
 			cmdutil.CheckErr(o.Validate(cmd, args))
 			cmdutil.CheckErr(o.Run())
